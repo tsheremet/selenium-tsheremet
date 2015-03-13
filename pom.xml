@@ -8,5 +8,30 @@
     <artifactId>selenium-tsheremet</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <properties>
+        <selenium.version>2.45.0</selenium.version>
+        <testng.version>6.8.21</testng.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-firefox-driver</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+        </dependency>
+
+    </dependencies>
 
 </project>
