@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.testng.Assert;
 
@@ -14,9 +15,13 @@ public class FindJob {
     private WebDriver driver;
     private static final By jobPositions = By.id("job_positions");
 
+    @BeforeTest
+    public void initDriver() {
+        driver = new FirefoxDriver();
+    }
+
     @Test
     public void findJob() {
-        driver = new FirefoxDriver();
         driver.get("http://valvesoftware.com/jobs/job_postings.html");
 
         String job1 = "Psychologist";
