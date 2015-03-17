@@ -5,7 +5,7 @@
 
     <test name="FindJob">
         <classes>
-            <class name="functional.FindJob" />
+            <class name="functional.lesson04.FindJob" />
         </classes>
     </test>
 

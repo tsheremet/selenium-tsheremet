@@ -1,4 +1,4 @@
-package functional;
+package functional.lesson04;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -34,7 +34,8 @@ public class FindJob {
     }
 
     @AfterTest
-    public void quit() {
-        driver.quit();
+    public void tearDown() {
+        if (driver != null)
+            driver.quit();
     }
 }
