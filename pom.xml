@@ -11,6 +11,8 @@
     <properties>
         <selenium.version>2.45.0</selenium.version>
         <testng.version>6.8.21</testng.version>
+        <surefire.version>2.18.1</surefire.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencies>
@@ -19,17 +21,21 @@
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-firefox-driver</artifactId>
             <version>${selenium.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -40,20 +46,31 @@
                 <filtering>true</filtering>
             </resource>
         </resources>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.18.1</version>
-                <configuration>
+                <version>${surefire.version}</version>
+                <!--<configuration>
                     <suiteXmlFiles>
-                        <suiteXmlFile>src\test\resources\testng.xml</suiteXmlFile>
+                        <suiteXmlFile>src/test/recources/testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>-->
+                <configuration>
+                    <systemProperties>
+                        <property>
+                            <name>log4j.configuration</name>
+                            <value>log4j.properties</value>
+                        </property>
+                    </systemProperties>
+                    <useFile>false</useFile>
+                    <printSummary>true</printSummary>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
                 </configuration>
             </plugin>
         </plugins>
-
     </build>
 
 </project>
