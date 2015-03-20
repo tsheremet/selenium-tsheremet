@@ -8,9 +8,15 @@
         </classes>
     </test>-->
 
-    <test name="HomeWork">
+    <!--<test name="HomeWork">
         <classes>
             <class name="functional.lesson04.HomeWork" />
+        </classes>
+    </test>-->
+
+    <test name="TestLink">
+        <classes>
+            <class name="tests.functional.CreateSuiteTest" />
         </classes>
     </test>
 
