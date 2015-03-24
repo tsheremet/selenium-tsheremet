@@ -2,19 +2,17 @@ package testlink.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import java.util.List;
 
 
 /**
  * Created by tanya on 3/20/15.
  */
-public class SpecificationPage {
-    protected WebDriver driver;
-    private static final By titlebarFrame = By.name("titlebar");
-    private static final By treeFrame = By.name("treeframe");
-    private static final By mainFrame = By.name("mainframe");
-    private static final By workFrame = By.name("workframe");
+public class SpecificationPage extends AbstractPage {
     private static final By treeFrameTitle = By.xpath("//h1[@class='title'][contains(text(),'Navigator - Test Specification')]");
     private static final By workFrameTitle = By.className("title");
 
@@ -23,10 +21,12 @@ public class SpecificationPage {
     private static final By newTestSuite = By.id("new_testsuite");
     private static final By addTestSuiteNameInput = By.id("name");
     private static final By addTestSuiteNameBtn = By.name("add_testsuite_button");
+    private static final By treeTestSuiteNames = By.xpath("//div[@id='tree_div']/li[@class='x-tree-node']/a");
+
 
 
     public SpecificationPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public void open() {
@@ -34,31 +34,31 @@ public class SpecificationPage {
     }
 
     public boolean isOpened() {
-        /*driver.switchTo().frame(driver.findElement(treeFrame));
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.presenceOfElementLocated(treeFrameTitle));
-        return !driver.findElements(treeFrameTitle).isEmpty();*/
-        return true;
-    }
-
-    public void openTestSuiteOperations() {
-        driver.switchTo().defaultContent();
-        driver.switchTo().frame(driver.findElement(mainFrame));
-        driver.switchTo().frame(driver.findElement(workFrame));
-
-        System.out.println("I'm on work frame");
+        switchToWorkFrame();
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.presenceOfElementLocated(workFrameTitle));
+        return !driver.findElements(workFrameTitle).isEmpty();
     }
 
-    public void addTestSuite() {
+
+    public boolean openSpecificationPage() {
+        open();
+        return isOpened();
+    }
+
+    public void addTestSuite(String name) {
         driver.findElement(actionsLink).click();
         driver.findElement(newTestSuite).click();
-        driver.findElement(addTestSuiteNameInput).sendKeys("TS Name Tan "+Math.random());
+        driver.findElement(addTestSuiteNameInput).sendKeys(name);
         driver.findElement(addTestSuiteNameBtn).click();
     }
-    public boolean isTestSuiteCreated() {
 
+    public boolean isTestSuiteCreated(String name) {
+        switchToTreeFrame();
+        List<WebElement> testSuiteNameList = driver.findElements(treeTestSuiteNames);
+        for (WebElement testSuiteNameItem : testSuiteNameList) {
+            Assert.assertEquals(testSuiteNameItem.getText(), name, String.format("Element '%s' wasn't found", name));
+        }
         return true;
     }
 }

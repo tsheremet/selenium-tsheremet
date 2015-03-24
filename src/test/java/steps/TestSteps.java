@@ -1,6 +1,7 @@
 package steps;
 
 import org.openqa.selenium.WebDriver;
+import testlink.models.TestSuite;
 import testlink.pages.LoginPage;
 import testlink.pages.SpecificationPage;
 
@@ -16,15 +17,10 @@ public class TestSteps {
         return loginPage.login(login,password).isOpened();
     }
 
-    public boolean openSpecificationPage() {
+    public boolean createTestSuiteStep(TestSuite suite) {
         SpecificationPage specificationPage = new SpecificationPage(driver);
-        specificationPage.open();
-        return specificationPage.isOpened();
-    }
-
-    public void createTestSuiteStep() {
-        SpecificationPage specificationPage = new SpecificationPage(driver);
-        specificationPage.openTestSuiteOperations();
-        specificationPage.addTestSuite();
+        specificationPage.openSpecificationPage();
+        specificationPage.addTestSuite(suite.name);
+        return specificationPage.isTestSuiteCreated(suite.name);
     }
 }
