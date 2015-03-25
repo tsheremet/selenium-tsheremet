@@ -5,15 +5,16 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 /**
  * Created by tanya on 3/20/15.
  */
 public class SpecificationPage extends AbstractPage {
-    private static final By treeFrameTitle = By.xpath("//h1[@class='title'][contains(text(),'Navigator - Test Specification')]");
+    private static Logger Log = Logger.getLogger(SpecificationPage.class.getName());
+    private static final By treeFrameTitle = By.className("title");
     private static final By workFrameTitle = By.className("title");
 
     private static final By menuItemSpecification = By.xpath("//div[@class='menu_bar']/a[3]");
@@ -21,9 +22,13 @@ public class SpecificationPage extends AbstractPage {
     private static final By newTestSuite = By.id("new_testsuite");
     private static final By addTestSuiteNameInput = By.id("name");
     private static final By addTestSuiteNameBtn = By.name("add_testsuite_button");
-    private static final By treeTestSuiteNames = By.xpath("//div[@id='tree_div']/li[@class='x-tree-node']/a");
-
-
+    private static final By treeTestSuiteNamesList = By.className("x-tree-node-el");
+    private static final By treeTestSuiteNames = By.xpath("//div[@id='tree_div']/li[@class='x-tree-node']/li[@class='x-tree-node']");
+    private static final By newTestCase = By.id("create_tc");
+    private static final By addTestCaseNameInput = By.id("testcase_name");
+    private static final By addTestCaseNameBtn = By.id("do_create_button");
+    private static final By addAnotherCaseAfterBtn = By.id("stay_here");
+    private static final By expandTestSuiteIcon = By.xpath("//img[@class='x-tree-elbow-plus']");
 
     public SpecificationPage(WebDriver driver) {
         super(driver);
@@ -40,6 +45,13 @@ public class SpecificationPage extends AbstractPage {
         return !driver.findElements(workFrameTitle).isEmpty();
     }
 
+    public boolean isInTreeFrame() {
+        switchToWorkFrame();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.presenceOfElementLocated(treeFrameTitle));
+        return !driver.findElements(treeFrameTitle).isEmpty();
+    }
+
 
     public boolean openSpecificationPage() {
         open();
@@ -53,12 +65,42 @@ public class SpecificationPage extends AbstractPage {
         driver.findElement(addTestSuiteNameBtn).click();
     }
 
-    public boolean isTestSuiteCreated(String name) {
+    public boolean isTestSuiteCreated(String suiteName) {
         switchToTreeFrame();
-        List<WebElement> testSuiteNameList = driver.findElements(treeTestSuiteNames);
+        List<WebElement> testSuiteNameList = driver.findElements(treeTestSuiteNamesList);
         for (WebElement testSuiteNameItem : testSuiteNameList) {
-            Assert.assertEquals(testSuiteNameItem.getText(), name, String.format("Element '%s' wasn't found", name));
+            if (testSuiteNameItem.getText().contains(suiteName)) {
+                Log.info(String.format("Test suite with name '%s' created.",suiteName));
+                return true;
+            }
         }
-        return true;
+        return false;
+    }
+
+    public void addTestCase(String suiteName, String caseName) {
+        switchToTreeFrame();
+        driver.findElement(treeTestSuiteNamesList).findElement(By.xpath(String.format("//span[contains(text(),'%s')]", suiteName))).click();
+        switchToWorkFrame();
+        driver.findElement(actionsLink).click();
+        Log.info(String.format("Start creating test case with name '%s'",caseName));
+        driver.findElement(newTestCase).click();
+        driver.findElement(addTestCaseNameInput).sendKeys(caseName);
+        driver.findElement(addTestCaseNameBtn).click();
+    }
+
+    public boolean isTestCaseCreated(String suiteName, String caseName) {
+        switchToTreeFrame();
+        WebElement findSuite = driver.findElement(treeTestSuiteNamesList).findElement(By.xpath(String.format("//span[contains(text(),'%s')]/ancestor::span/ancestor::a/ancestor::div[@class='x-tree-node-el']", suiteName)));
+        findSuite.findElement(expandTestSuiteIcon).click();
+        Log.info(findSuite.findElement(By.xpath("//ancestor::div[@class='x-tree-node-el']/ul[@class='x-tree-node-ct']/li")).getText());
+
+        List<WebElement> testSuiteNameList = driver.findElements(treeTestSuiteNamesList);
+        for (WebElement testSuiteNameItem : testSuiteNameList) {
+            if (testSuiteNameItem.getText().contains(caseName)) {
+                Log.info(String.format("Test case with name '%s' created.",caseName));
+                return true;
+            }
+        }
+        return false;
     }
 }

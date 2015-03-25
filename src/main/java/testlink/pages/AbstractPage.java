@@ -9,8 +9,8 @@ import org.openqa.selenium.WebDriver;
 public class AbstractPage {
     protected WebDriver driver;
     private static final By titlebarFrame = By.name("titlebar");
-    private static final By treeFrame = By.name("treeframe");
     private static final By mainFrame = By.name("mainframe");
+    private static final By treeFrame = By.name("treeframe");
     private static final By workFrame = By.name("workframe");
     private static final By detailsFrame = By.xpath("//iframe[contains(title(),'details')]");
 
