@@ -22,14 +22,11 @@ public class CreateSuiteTest extends TestSteps {
     @Test
     public void createTestSuite() {
         TestSuite suite = new TestSuite();
-        TestCase testcase1 = new TestCase();
-        TestCase testcase2 = new TestCase();
-        TestCase testcase3 = new TestCase();
+        TestCase testcase = new TestCase();
         Assert.assertTrue(login("admin", "admin"), "Login failed");
         Assert.assertTrue(createTestSuiteStep(suite),"Test suite creation failed.");
-        Assert.assertTrue(createTestCaseStep(suite, testcase1),"Test case creation failed.");
-        Assert.assertTrue(createTestCaseStep(suite, testcase2),"Test case creation failed.");
-        Assert.assertTrue(createTestCaseStep(suite, testcase3),"Test case creation failed.");
+        Assert.assertTrue(createTestCaseStep(suite, testcase),"Test case creation failed.");
+        Assert.assertTrue(createTestStepStep(suite, testcase),"Test step creation failed.");
     }
 
     @AfterSuite

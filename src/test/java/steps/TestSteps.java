@@ -33,4 +33,10 @@ public class TestSteps {
         specificationPage.addTestCase(suite.name, testcase.name);
         return true; //specificationPage.isTestCaseCreated(suite.name,testcase.name);
     }
+
+    public boolean createTestStepStep(TestSuite suite, TestCase testcase) {
+        SpecificationPage specificationPage = new SpecificationPage(driver);
+        specificationPage.addTestStep(suite.name, testcase.name);
+        return true; //specificationPage.isTestCaseCreated(suite.name,testcase.name);
+    }
 }

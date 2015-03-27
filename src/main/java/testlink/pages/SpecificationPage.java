@@ -3,6 +3,7 @@ package testlink.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import java.util.List;
@@ -29,6 +30,12 @@ public class SpecificationPage extends AbstractPage {
     private static final By addTestCaseNameBtn = By.id("do_create_button");
     private static final By addAnotherCaseAfterBtn = By.id("stay_here");
     private static final By expandTestSuiteIcon = By.xpath("//img[@class='x-tree-elbow-plus']");
+    private static final By createTestStepBtn = By.name("create_step");
+    private static final By newTestStepAction = By.tagName("br");
+    private static final By newTestStepActionText = By.xpath("//p");
+    private static final By newTestStepExpectedResult = By.xpath("//tr[@id='new_step']/span[@id='cke_expected_results']");
+    private static final By newTestStepSaveBtn = By.id("do_update_step");
+
 
     public SpecificationPage(WebDriver driver) {
         super(driver);
@@ -90,7 +97,7 @@ public class SpecificationPage extends AbstractPage {
 
     public boolean isTestCaseCreated(String suiteName, String caseName) {
         switchToTreeFrame();
-        WebElement findSuite = driver.findElement(treeTestSuiteNamesList).findElement(By.xpath(String.format("//span[contains(text(),'%s')]/ancestor::span/ancestor::a/ancestor::div[@class='x-tree-node-el']", suiteName)));
+        WebElement findSuite = driver.findElement(treeTestSuiteNamesList).findElement(By.xpath(String.format("//span[contains(text(),'%s')]", suiteName)));
         findSuite.findElement(expandTestSuiteIcon).click();
         Log.info(findSuite.findElement(By.xpath("//ancestor::div[@class='x-tree-node-el']/ul[@class='x-tree-node-ct']/li")).getText());
 
@@ -102,5 +109,28 @@ public class SpecificationPage extends AbstractPage {
             }
         }
         return false;
+    }
+
+    public void addTestStep(String suiteName, String caseName) {
+        /*switchToTreeFrame();
+        Actions action = new Actions(driver);
+        action.doubleClick(driver.findElement(treeTestSuiteNamesList).findElement(By.xpath(String.format("//span[contains(text(),'%s')]", suiteName))));
+
+        Log.info("Double click on TS");
+        driver.findElement(treeTestSuiteNamesList).findElement(By.xpath(String.format("//span[contains(text(),'%s')]", caseName))).click();
+        */
+
+
+        driver.findElement(createTestStepBtn).click();
+        /*Log.info("Start creating test step");
+        switchToWorkFrame();
+        Log.info("I've got text = " + driver.findElement(newTestStepAction).getText());
+        driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
+        driver.findElement(newTestStepAction).click();
+        driver.findElement(By.name("steps")).sendKeys("bla-bla");
+        driver.findElement(newTestStepActionText).sendKeys("some text");*/
+        driver.findElement(newTestStepSaveBtn).click();
+        driver.findElement(newTestStepSaveBtn).click();
+        driver.findElement(newTestStepSaveBtn).click();
     }
 }
