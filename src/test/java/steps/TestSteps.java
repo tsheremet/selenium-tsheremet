@@ -1,18 +1,21 @@
 package steps;
 
 import org.openqa.selenium.WebDriver;
+import org.slf4j.LoggerFactory;
 import testlink.models.TestCase;
 import testlink.models.TestSuite;
 import testlink.pages.LoginPage;
 import testlink.pages.SpecificationPage;
 
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Created by tanya on 3/20/15.
  */
 public class TestSteps {
-    private static Logger Log = Logger.getLogger(TestSteps.class.getName());
+    private static Logger Log = LoggerFactory.getLogger(TestSteps.class);
     protected WebDriver driver;
 
     public boolean login(String login, String password) {

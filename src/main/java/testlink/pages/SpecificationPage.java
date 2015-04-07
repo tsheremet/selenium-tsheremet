@@ -6,15 +6,19 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
 import java.util.List;
-import java.util.logging.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
  * Created by tanya on 3/20/15.
  */
 public class SpecificationPage extends AbstractPage {
-    private static Logger Log = Logger.getLogger(SpecificationPage.class.getName());
+    //private static Logger Log = Logger.getLogger(SpecificationPage.class.getName());
+
+    private static Logger Log = LoggerFactory.getLogger(SpecificationPage.class);
     private static final By treeFrameTitle = By.className("title");
     private static final By workFrameTitle = By.className("title");
 
@@ -32,7 +36,7 @@ public class SpecificationPage extends AbstractPage {
     private static final By expandTestSuiteIcon = By.xpath("//img[@class='x-tree-elbow-plus']");
     private static final By createTestStepBtn = By.name("create_step");
     private static final By newTestStepAction = By.tagName("br");
-    private static final By newTestStepActionText = By.xpath("//p");
+    private static final By newTestStepActionText = By.xpath("//span[@id='cke_steps']/iframe");
     private static final By newTestStepExpectedResult = By.xpath("//tr[@id='new_step']/span[@id='cke_expected_results']");
     private static final By newTestStepSaveBtn = By.id("do_update_step");
 
@@ -122,15 +126,17 @@ public class SpecificationPage extends AbstractPage {
 
 
         driver.findElement(createTestStepBtn).click();
-        /*Log.info("Start creating test step");
-        switchToWorkFrame();
-        Log.info("I've got text = " + driver.findElement(newTestStepAction).getText());
-        driver.switchTo().frame(driver.findElement(By.tagName("iframe")));
-        driver.findElement(newTestStepAction).click();
-        driver.findElement(By.name("steps")).sendKeys("bla-bla");
-        driver.findElement(newTestStepActionText).sendKeys("some text");*/
+        Log.info("Start creating test step");
+        //switchToWorkFrame();
+        //Log.info("I've got text = " + driver.findElement(newTestStepAction).getText());
+        driver.findElement(newTestStepActionText).sendKeys("some text");
+        driver.findElement(newTestStepExpectedResult).sendKeys("some result");
         driver.findElement(newTestStepSaveBtn).click();
+        driver.findElement(newTestStepActionText).sendKeys("some text");
+        driver.findElement(newTestStepExpectedResult).sendKeys("some result");
         driver.findElement(newTestStepSaveBtn).click();
+        driver.findElement(newTestStepActionText).sendKeys("some text");
+        driver.findElement(newTestStepExpectedResult).sendKeys("some result");
         driver.findElement(newTestStepSaveBtn).click();
     }
 }
